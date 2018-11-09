@@ -1,32 +1,52 @@
+.App, input, button {
+  font-size: 16px;
+  font-family: "Fira Code", "Menlo", "Courier New", monospace;
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
+  background: #002b36;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  color: #93a1a1;
 }
 
-.App-link {
-  color: #61dafb;
+.todo-list {
+  width: 400px;
+  background: #073642;
+  padding: 12px;
+  margin: 12px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+ul {
+  margin-bottom: 36px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  padding-right: 24px;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+input {
+  background: #586e75;
+  border: none;
+  color: #fdf6e3;
+}
+
+button {
+  background: #cb4b16;
+  border: none;
+  color: #002b36;
+}
+
+.new-todo button {
+  background: #859900;
 }
