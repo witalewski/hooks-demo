@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+// const log = msg => console.log(`%c ${msg}`, "color: blue");
+
 export class TodoListClassComponent extends Component {
   constructor(props) {
     super(props);
