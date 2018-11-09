@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+// const log = msg => console.log(`%c ${msg}`, "color: blue");
+
 export class TodoListClassComponent extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,6 @@ export class TodoListClassComponent extends Component {
       newTodoLabel: ""
     };
   }
-
   componentDidMount() {
     axios
       .get(
@@ -67,7 +68,7 @@ export class TodoListClassComponent extends Component {
             </li>
           ))}
         </ul>
-        <div class="new-todo">
+        <div className="new-todo">
           <input
             type="text"
             value={newTodoLabel}
