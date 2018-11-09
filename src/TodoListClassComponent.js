@@ -69,7 +69,7 @@ export class TodoListClassComponent extends Component {
             </li>
           ))}
         </ul>
-        <div class="new-todo">
+        <div className="new-todo">
           <input
             type="text"
             value={newTodoLabel}
