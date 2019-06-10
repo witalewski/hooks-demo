@@ -1,41 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import axios from "axios";
 
-// const log = msg => console.log(`%c ${msg}`, "color: green");
+const initialState = { todos: null, nextTodoId: 0, newTodoLabel: "" };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "reset":
+      return {
+        ...state,
+        todos: action.payload,
+        nextTodoId: action.payload.length
+      };
+    case "add":
+      return {
+        todos: [
+          ...state.todos,
+          {
+            id: state.nextTodoId,
+            label: state.newTodoLabel,
+            done: false
+          }
+        ],
+        nextTodoId: state.nextTodoId + 1,
+        newTodoLabel: ""
+      };
+    case "remove":
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.payload)
+      };
+    case "markAsDone":
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.payload ? { ...todo, done: true } : todo
+        )
+      };
+    case "markAsNotDone":
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.payload ? { ...todo, done: false } : todo
+        )
+      };
+    case "updateLabel":
+      return {
+        ...state,
+        newTodoLabel: action.payload
+      };
+    default:
+      return state;
+  }
+}
 
 export const TodoListFunctionComponent = () => {
-  const [todos, setTodos] = useState();
-  const [nextTodoId, setNextTodoId] = useState(0);
-  const [newTodoLabel, setNewTodoLabel] = useState("");
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { todos, newTodoLabel } = state;
 
   useEffect(() => {
     axios
       .get(
         "https://gist.githubusercontent.com/witalewski/fc8f043d53a0d505f84c5ddb04ae76ea/raw/7c505bbc1675a0bc8a067f8b633b531c769bb64c/data.json"
       )
-      .then(({ data }) => {
-        setTodos(data);
-        setNextTodoId(data.length);
-      });
+      .then(({ data }) => dispatch({ type: "reset", payload: data }));
   }, []);
-
-  const markTodoAsDone = (id, done) =>
-    setTodos(todos.map(todo => (todo.id === id ? { ...todo, done } : todo)));
-
-  const removeTodo = id => setTodos(todos.filter(todo => todo.id !== id));
-
-  const addNewTodo = () => {
-    setTodos([
-      ...todos,
-      {
-        id: nextTodoId,
-        label: newTodoLabel,
-        done: false
-      }
-    ]);
-    setNextTodoId(nextTodoId + 1);
-    setNewTodoLabel("");
-  };
 
   return todos ? (
     <div className="todo-list">
@@ -45,11 +73,25 @@ export const TodoListFunctionComponent = () => {
             <input
               type="checkbox"
               checked={todo.done}
-              onChange={({ target }) => markTodoAsDone(todo.id, target.checked)}
+              onChange={({ target }) =>
+                dispatch({
+                  type: target.checked ? "markAsDone" : "markAsNotDone",
+                  payload: todo.id
+                })
+              }
               label={todo.label}
             />
             <span className={todo.done ? "done" : ""}>{todo.label}</span>
-            <button onClick={() => removeTodo(todo.id)}>X</button>
+            <button
+              onClick={() =>
+                dispatch({
+                  type: "remove",
+                  payload: todo.id
+                })
+              }
+            >
+              X
+            </button>
           </li>
         ))}
       </ul>
@@ -57,9 +99,14 @@ export const TodoListFunctionComponent = () => {
         <input
           type="text"
           value={newTodoLabel}
-          onChange={({ target }) => setNewTodoLabel(target.value)}
+          onChange={({ target }) =>
+            dispatch({
+              type: "updateLabel",
+              payload: target.value
+            })
+          }
         />
-        <button onClick={addNewTodo}>Add</button>
+        <button onClick={() => dispatch({ type: "add" })}>Add</button>
       </div>
     </div>
   ) : (
