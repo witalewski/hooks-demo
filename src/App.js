@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import { TodoListClassComponent } from './TodoListClassComponent';
-import { TodoListFunctionComponent } from './TodoListFunctionComponent';
+import { TodoList } from './TodoList';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <TodoListClassComponent />
-        <TodoListFunctionComponent />
+        <TodoList />
       </div>
     );
   }
