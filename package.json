@@ -11,6 +11,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "cypress:run": "cypress run",
+    "test:cypress": "start-server-and-test start http://localhost:3000 cypress:run",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -28,6 +30,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint-plugin-cypress": "^2.2.1",
-    "sinon": "^7.1.1"
+    "sinon": "^7.1.1",
+    "start-server-and-test": "^1.9.1"
   }
 }
