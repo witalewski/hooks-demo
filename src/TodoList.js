@@ -43,13 +43,15 @@ export const TodoList = () => {
               label={todo.label}
             />
             <span className={todo.done ? "done" : ""}>{todo.label}</span>
-            <button onClick={() => removeTodo(todo.id)}>X</button>
+            <button onClick={() => removeTodo(todo.id)}>
+              X
+            </button>
           </li>
         ))}
       </ul>
       <div className="new-todo">
         <input ref={labelInputRef} type="text" />
-        <button onClick={onAddButtonClick}>Add</button>
+        <button className="add" onClick={onAddButtonClick}>Add</button>
       </div>
     </div>
   );
